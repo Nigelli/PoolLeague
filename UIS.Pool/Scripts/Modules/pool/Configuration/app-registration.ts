@@ -76,6 +76,7 @@
     import LeagueService = pool.Services.LeagueService;
     import SeasonService = pool.Services.SeasonService;
     import MatchService = pool.Services.MatchService;
+    import PlayerService = pool.Services.PlayerService;
     
     angular.module('pool.Core')
         .service('AthorizationService', AuthorizationService);
@@ -88,6 +89,9 @@
 
     angular.module('pool.Core')
         .service('MatchService', MatchService);
+
+    angular.module('pool.Core')
+        .service('PlayerService', PlayerService);
 
 //#endregion
 }

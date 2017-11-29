@@ -13,9 +13,11 @@ namespace UIS.Pool.Controllers
     public class PoolApiController : Controller
     {
         private readonly ISeasonService _seasonService;
-        public PoolApiController(ISeasonService seasonService)
+        private readonly IPlayerService _playerService;
+        public PoolApiController(ISeasonService seasonService, IPlayerService playerService)
         {
             _seasonService = seasonService;
+            _playerService = playerService;
         }
 
         #region Season Api Methods
@@ -40,6 +42,24 @@ namespace UIS.Pool.Controllers
         #endregion
 
         #region League Api Methods
+
+        [AllowAnonymous]
+        [Route("players/get")]
+        [HttpGet]
+        public JsonResult GetPlayers()
+        {
+            var result = _playerService.GetPlayers();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [Route("players/add")]
+        [HttpPost]
+        public JsonResult AddPlayer(string name)
+        {
+            var result = _playerService.InsertPlayer(name);
+            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region Player Api Methods

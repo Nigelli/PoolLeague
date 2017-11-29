@@ -45,9 +45,11 @@ namespace UIS.Pool
             // container.RegisterType<IProductRepository, ProductRepository>();
             // Repositories
             container.RegisterType<ISeasonRepository, SeasonRepository>();
+            container.RegisterType<IPlayerRepository, PlayerRepository>();
 
             // Services
             container.RegisterType<ISeasonService, SeasonService>();
+            container.RegisterType<IPlayerService, PlayerService>();
         }
     }
 }

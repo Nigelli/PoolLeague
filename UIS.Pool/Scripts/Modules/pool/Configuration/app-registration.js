@@ -58,6 +58,7 @@ var pool;
         var LeagueService = pool.Services.LeagueService;
         var SeasonService = pool.Services.SeasonService;
         var MatchService = pool.Services.MatchService;
+        var PlayerService = pool.Services.PlayerService;
         angular.module('pool.Core')
             .service('AthorizationService', AuthorizationService);
         angular.module('pool.Core')
@@ -66,6 +67,8 @@ var pool;
             .service('SeasonService', SeasonService);
         angular.module('pool.Core')
             .service('MatchService', MatchService);
+        angular.module('pool.Core')
+            .service('PlayerService', PlayerService);
         //#endregion
     })(core = pool.core || (pool.core = {}));
 })(pool || (pool = {}));

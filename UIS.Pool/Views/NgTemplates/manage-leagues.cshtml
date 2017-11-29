@@ -51,7 +51,21 @@
     </div>
 
     <div>
-        <h3>Add Leagues</h3>
+        <h3>New Season</h3>
+        <form>
+            <div class="form-group">
+                <div class="form-group">
+                    <label>Season Name</label>
+                    <input class="form-control" type="text" ng-model="vm.newSeason.Description" value="" />
+                    <button class="btn btn-sm btn-default" ng-click="vm.AddSeason(vm.newSeason.Description)">Add Season</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div>
+        <h3>Add League to Season</h3>
         <form>
             <div class="form-group">
                 <label>League Name</label>
@@ -97,8 +111,16 @@
 
 
     <div>
-        <h3>Add Players</h3>
-        <form></form>
+        <h3>New Player Registration</h3>
+        <form>
+            <div class="form-group">
+                <div class="form-group">
+                    <label>Player Name</label>
+                    <input class="form-control" type="text" ng-model="vm.newPlayer.Name" value="" />
+                    <button class="btn btn-sm btn-default" ng-click="vm.AddPlayer(vm.newPlayer.Name)">Add Player</button>
+                </div>
+            </div>
+        </form>
     </div>
 
 
