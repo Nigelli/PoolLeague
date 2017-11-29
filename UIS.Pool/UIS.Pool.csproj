@@ -249,12 +249,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Db.cs" />
     <Compile Include="Repositories\IPlayerRepository.cs" />
+    <Compile Include="Repositories\IMatchRepository.cs" />
     <Compile Include="Repositories\ISeasonRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\MatchRepository.cs" />
     <Compile Include="Repositories\SeasonRepository.cs" />
     <Compile Include="Services\IPlayerService.cs" />
+    <Compile Include="Services\IMatchService.cs" />
     <Compile Include="Services\ISeasonService.cs" />
     <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\SeasonService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
