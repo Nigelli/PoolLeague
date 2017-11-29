@@ -1,0 +1,106 @@
+﻿@{
+    Layout = null;
+}
+<div>
+    <div>
+        <h3>Manage Results</h3>
+        <form>
+
+            <div class="form-group">
+                <label>Season</label>
+                <select class="form-control" ng-model="vm.ManageResults.SelectedSeason" ng-options="season as season.Description for season in vm.Seasons | orderBy:'Id':'reverse' track by season.Id" ng-change="vm.UpdateSelectedSeason(vm.ManageResults.SelectedSeason.Id)"></select>
+            </div>
+
+            <div class="form-group">
+                <label>League Name</label>
+                <select class="form-control" ng-model="vm.ManageResults.SelectedLeague" ng-options="league as league.Description for league in vm.Leagues track by league.Id" ng-change="vm.UpdateSelectedLeague(vm.ManageResults.SelectedLeague.Id)"></select>
+            </div>
+
+            @*<div class="form-group">
+                <label>Match</label>
+                <select class="form-control" ng-model="vm.ManageResults.SelectedMatch" ng-options="match as match.Player1 + ' vs ' + match.Player2 for match in vm.Matches track by match.Id" ng-change="vm.UpdateSelectedMatch(vm.ManageResults.SelectedMatch)"></select>
+            </div>*@
+
+            <div ng-if="vm.Matches">
+                <table class="table table-striped table-bordered table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                            <th>Winner</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="match in vm.Matches | orderBy:['Player1','Player2']">
+                            <td>{{match.Player1}}</td>
+                            <td>{{match.Player2}}</td>
+                            <td>
+                                <select class="form-control" type="text" ng-model="match.Winner">
+                                    <option value="null">Not Played</option>
+                                    <option value="{{match.Player1}}">{{match.Player1}}</option>
+                                    <option value="{{match.Player2}}">{{match.Player2}}</option>
+                                </select>
+                            </td>
+                            <td><button class="btn btn-sm btn-danger" ng-click="vm.UpdateMatchResult(match)">Update</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <h3>Add Leagues</h3>
+        <form>
+            <div class="form-group">
+                <label>League Name</label>
+                <input class="form-control" type="text" ng-model="vm.newLeague.Name" value=""/>
+            </div>
+
+            <div class="form-group">
+                <label>Season</label>
+                <select class="form-control" ng-model="vm.newLeague.selectedSeason" ng-options="season.Description for season in vm.Seasons | orderBy:'Ordinal':'reverse' track by season.Id"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Add Players</label>
+                <select class="form-control" ng-model="vm.newLeague.selectedPlayer" ng-options="player.Name for player in vm.Players track by player.Id"></select>
+                <button class="btn btn-sm btn-default" ng-click="vm.addPlayerToNewLeague()">Add</button>
+            </div>
+
+            <div>
+                <table class="table table-bordered table-striped table-responsive">
+                    <thead ng-if="vm.newLeague.Name">
+                        <tr><th>{{vm.newLeague.Season || 'Select Season'}}</th></tr>
+                        <tr><th>{{vm.newLeague.Name}}</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!vm.newLeague.Player.length">
+                            <td><strong>Id:</strong></td>
+                            <td><strong>Name:</strong></td>
+                        </tr>
+                        <tr ng-if="!vm.newLeague.Player.length">
+                            <td><strong>Add some players:</strong></td>
+                        </tr>
+                        <tr ng-repeat="player in vm.newLeague.Player">
+                            <td>{{player.Id}}</td>
+                            <td>{{player.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-success">Add League</button>
+        </form>
+    </div>
+
+
+    <div>
+        <h3>Add Players</h3>
+        <form></form>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div>
+    <h2>Welcome to the UIS pool league website</h2>
+
+    <div class="form-group">
+        <label>Month</label>
+        <select class="form-control" ng-model="vm.CurrentSeason" ng-options="season.Description for season in vm.Seasons | orderBy:'Ordinal':'reverse' track by season.Id" ng-change="vm.updateCurrentSeason(vm.CurrentSeason.Id)"></select>
+    </div>
+
+    <div ng-repeat="league in vm.Leagues track by league.Id">
+        <h3>{{ league.Description }}</h3>
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="player in league.Data | orderBy:'Position' ">
+                    <td>{{ player.Name }}</td>
+                    <td>{{ player.Wins }}</td>
+                    <td>{{ player.Losses }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Results</h4>
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Player 1</th>
+                    <th>Player 2</th>
+                    <th>Winner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="result in league.Results">
+                    <td>{{ result.Player1 }}</td>
+                    <td>{{ result.Player2 }}</td>
+                    <td>{{ result.Winner }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
