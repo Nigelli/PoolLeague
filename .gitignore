@@ -1,0 +1,9 @@
+packages/
+*.suo
+*.user
+_ReSharper.*
+bin/
+obj/
+*dbmdl
+Logs/
+.vs/
