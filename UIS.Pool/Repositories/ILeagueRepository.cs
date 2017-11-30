@@ -7,10 +7,9 @@ using UIS.Pool.Models;
 
 namespace UIS.Pool.Repositories
 {
-    public interface IMatchRepository
+    public interface ILeagueRepository
     {
-        IList<Match> GetMatchesByLeagueId(int leagueId);
-        int InsertOrUpdateMatch(Match match);
-        int InsertMatches(IList<Match> matches);
+        IList<League> GetLeaguesBySeasonId(int Id);
+        int InsertLeague(League league);
     }
 }

@@ -24,6 +24,7 @@ var pool;
                 vm.UpdateMatchResult = function () { return _this._updateMatchResult(); };
                 vm.AddSeason = function (description) { return _this._addSeason(description); };
                 vm.AddPlayer = function (name) { return _this._addPlayer(name); };
+                vm.AddLeague = function (description, seasonId) { return _this._addLeague(description, seasonId); };
                 function init() {
                     var _this = this;
                     _seasonService.GetSeasons()
@@ -40,6 +41,14 @@ var pool;
                 ;
                 init();
             }
+            ManageLeaguesController.prototype._addLeague = function (description, seasonId) {
+                var newLeague = {
+                    Season_Id: seasonId,
+                    Description: description,
+                    LeagueLevel: 1
+                };
+                this._leagueService.CreateLeague(newLeague).then();
+            };
             ManageLeaguesController.prototype._addSeason = function (description) {
                 var _this = this;
                 this._seasonService.AddSeason(description)
@@ -107,3 +116,4 @@ var pool;
         Controllers.ManageLeaguesController = ManageLeaguesController;
     })(Controllers = pool.Controllers || (pool.Controllers = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=ManageLeaguesController.js.map

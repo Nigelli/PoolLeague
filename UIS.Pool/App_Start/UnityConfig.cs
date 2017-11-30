@@ -1,7 +1,9 @@
 using System;
+using UIS.Pool.Controllers;
 using UIS.Pool.Repositories;
 using UIS.Pool.Services;
 using Unity;
+using Unity.Injection;
 
 namespace UIS.Pool
 {
@@ -40,16 +42,22 @@ namespace UIS.Pool
             // NOTE: To load from web.config uncomment the line below.
             // Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
+            container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
             // Repositories
             container.RegisterType<ISeasonRepository, SeasonRepository>();
             container.RegisterType<IPlayerRepository, PlayerRepository>();
+            container.RegisterType<IMatchRepository, MatchRepository>();
+            container.RegisterType<ILeagueRepository, LeagueRepository>();
 
             // Services
             container.RegisterType<ISeasonService, SeasonService>();
             container.RegisterType<IPlayerService, PlayerService>();
+            container.RegisterType<IMatchService, MatchService>();
+            container.RegisterType<ILeagueService, LeagueService>();
         }
     }
 }

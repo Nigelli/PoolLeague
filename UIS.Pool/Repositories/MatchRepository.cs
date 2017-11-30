@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using UIS.Pool.Models;
 
@@ -46,6 +47,46 @@ namespace UIS.Pool.Repositories
             catch (Exception ex)
             {
                 throw new DataException("Failure to add Match to the database", ex);
+            }
+        }
+
+        public int InsertMatches(IList<Match> matches)
+        {
+            try
+            {
+                try
+                {
+                    var newMatches = new DataTable();
+                    newMatches.Columns.Add("LeagueId", typeof(int));
+                    newMatches.Columns.Add("Player1", typeof(int));
+                    newMatches.Columns.Add("Player2", typeof(int));
+                    foreach (var match in matches)
+                    {
+                        DataRow dataRow = newMatches.NewRow();
+
+                        dataRow["LeagueId"] = match.LeagueId;
+                        dataRow["Player1"] = match.Player1;
+                        dataRow["Player2"] = match.Player2;
+                        newMatches.Rows.Add(dataRow);
+                    }
+
+                    return Db.ExecuteNonQuery("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True", 
+                    "InsertMatches", CommandType.StoredProcedure, new SqlParameter[]
+                        {
+                        new SqlParameter("@matches", newMatches)
+                        });
+                }
+                catch (Exception ex)
+                {
+                    throw new DataException("Failure to Execute command: InsertOrUpdateUser.", ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is DataException)
+                    throw;
+
+                throw new DataException("Failure to Insert Or Update Policies into the repository.", ex);
             }
         }
 

@@ -10,5 +10,6 @@ namespace UIS.Pool.Services
     {
         IList<Match> GetMatchesByLeagueId(int leagueId);
         int InsertOrUpdateMatch(Match match);
+        IList<Match> GenerateMatches(int LeagueId, IList<int> playerIds, int numberOfMatches = 1, IList<Match> matches = null);
     }
 }

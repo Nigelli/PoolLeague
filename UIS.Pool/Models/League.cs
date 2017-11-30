@@ -10,6 +10,7 @@ namespace UIS.Pool.Models
         public int Id { get; set; }
         public int Season_Id { get; set; }
         public string Description { get; set; }
+        public int LeagueLevel { get; set; }
         public virtual ICollection<LeaguePlayer> Players { get; set; }
         public virtual ICollection<Match> Matches { get; set; }
     }

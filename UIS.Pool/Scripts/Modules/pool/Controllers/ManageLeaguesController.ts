@@ -15,6 +15,7 @@
         UpdateMatchResult: Function;
         AddSeason: Function;
         AddPlayer: Function;
+        AddLeague: Function;
 
 
         constructor(
@@ -37,6 +38,7 @@
             vm.UpdateMatchResult = () => this._updateMatchResult();
             vm.AddSeason = description => this._addSeason(description);
             vm.AddPlayer = name => this._addPlayer(name);
+            vm.AddLeague = (description, seasonId) => this._addLeague(description, seasonId);
 
             function init() {
                 _seasonService.GetSeasons()
@@ -58,6 +60,17 @@
             };
 
             init();
+        }
+
+        private _addLeague(description, seasonId) {
+            let newLeague = {
+                Season_Id: seasonId,
+                Description: description,
+                LeagueLevel: 1
+            }
+            this._leagueService.CreateLeague(newLeague).then(
+            );
+
         }
 
         private _addSeason(description) {
