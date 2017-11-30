@@ -68,44 +68,60 @@
         <h3>Add League to Season</h3>
         <form>
             <div class="form-group">
-                <label>League Name</label>
-                <input class="form-control" type="text" ng-model="vm.newLeague.Name" value=""/>
-            </div>
-
-            <div class="form-group">
                 <label>Season</label>
                 <select class="form-control" ng-model="vm.newLeague.selectedSeason" ng-options="season.Description for season in vm.Seasons | orderBy:'Ordinal':'reverse' track by season.Id"></select>
             </div>
 
             <div class="form-group">
+                <label>League Name</label>
+                <input class="form-control" type="text" ng-model="vm.newLeague.Name" value="" />
+                <button class="btn btn-sm btn-default" ng-click="vm.AddLeague(vm.newLeague.Name, vm.newLeague.selectedSeason.Id)">Add League</button>
+            </div>
+
+        </form>
+    </div>
+
+    <div>
+        <h3>Add Player to League</h3>
+        <form>
+            <div class="form-group">
+                <label>Season</label>
+                <select class="form-control" ng-model="vm.manageLeague.selectedSeason" ng-options="season.Description for season in vm.Seasons | orderBy:'Ordinal':'reverse' track by season.Id"></select>
+            </div>
+
+
+            <div class="form-group">
+                <label>League</label>
+                <select class="form-control" ng-model="vm.manageLeague.selectedLeague" ng-options="league.Description for league in vm.Leagues | orderBy:'Ordinal':'reverse' track by league.Id"></select>
+            </div>
+
+            <div class="form-group">
                 <label>Add Players</label>
-                <select class="form-control" ng-model="vm.newLeague.selectedPlayer" ng-options="player.Name for player in vm.Players track by player.Id"></select>
-                <button class="btn btn-sm btn-default" ng-click="vm.addPlayerToNewLeague()">Add</button>
+                <select class="form-control" ng-model="vm.manageLeague.selectedPlayer" ng-options="player.Name for player in vm.Players track by player.Id"></select>
+                <button class="btn btn-sm btn-default" ng-click="vm.AddPlayerToLeague(vm.manageLeague.selectedPlayer.Id, vm.manageLeague.selectedLeague.Id)">Add Player</button>
             </div>
 
             <div>
                 <table class="table table-bordered table-striped table-responsive">
-                    <thead ng-if="vm.newLeague.Name">
-                        <tr><th>{{vm.newLeague.Season || 'Select Season'}}</th></tr>
-                        <tr><th>{{vm.newLeague.Name}}</th></tr>
+                    <thead ng-if="vm.manageLeague.selectedLeague">
+                        <tr><th colspan="2">{{vm.manageLeague.selectedSeason.Description || 'Select Season'}}</th></tr>
+                        <tr><th colspan="2">{{vm.manageLeague.selectedLeague.Description}}</th></tr>
                     </thead>
                     <tbody>
-                        <tr ng-if="!vm.newLeague.Player.length">
+                        <tr ng-if="vm.manageLeague.selectedLeague.Players.length">
                             <td><strong>Id:</strong></td>
                             <td><strong>Name:</strong></td>
                         </tr>
-                        <tr ng-if="!vm.newLeague.Player.length">
-                            <td><strong>Add some players:</strong></td>
+                        <tr ng-if="!vm.manageLeague.selectedLeague.Players.length">
+                            <td colspan="2"><strong>Add some players:</strong></td>
                         </tr>
-                        <tr ng-repeat="player in vm.newLeague.Player">
+                        <tr ng-if="vm.manageLeague.selectedLeague.Players.length" ng-repeat="player in vm.manageLeague.selectedLeague.Players">
                             <td>{{player.Id}}</td>
                             <td>{{player.Name}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <button class="btn btn-success">Add League</button>
         </form>
     </div>
 

@@ -9,6 +9,7 @@ var pool;
                     return $http.post("/data/leagues/get?Id=" + id);
                 };
                 this.CreateLeague = function (league) { return $http.post("/data/leagues/add", league); };
+                this.AddPlayer = function (playerId, leagueId) { return $http.post("/data/leagues/addPlayer?PlayerId=" + playerId + "&LeagueId=" + leagueId); };
             }
             LeagueService.$inject = ['$http', '$q'];
             return LeagueService;

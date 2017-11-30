@@ -10,5 +10,6 @@ namespace UIS.Pool.Services
     {
         IList<League> GetLeaguesBySeasonId(int Id);
         int InsertLeague(League league);
+        int InsertPlayerIntoLeague(int playerId, int LeagueId);
     }
 }

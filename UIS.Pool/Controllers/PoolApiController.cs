@@ -69,6 +69,15 @@ namespace UIS.Pool.Controllers
             var result = _leagueService.InsertLeague(league);
             return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize]
+        [Route("leagues/addPlayer")]
+        [HttpPost]
+        public JsonResult InsertPlayerIntoLeague(int PlayerId, int LeagueId)
+        {
+            var result = _leagueService.InsertPlayerIntoLeague(PlayerId, LeagueId);
+            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region Player Api Methods

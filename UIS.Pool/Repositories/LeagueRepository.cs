@@ -47,6 +47,38 @@ namespace UIS.Pool.Repositories
                 throw new DataException("Failure to add League to the database", ex);
             }
         }
+        public int InsertPlayerIntoLeague(int playerId, int leagueId)
+        {
+            try
+            {
+                return Db.ExecuteNonQuery("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True",
+                    "InsertLeaguePlayer", CommandType.StoredProcedure, new SqlParameter[]
+                    {
+                        new SqlParameter("@leagueId", leagueId),
+                        new SqlParameter("@playerId", playerId)
+                    });
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Failure to add player to the league", ex);
+            }
+        }
+
+        public static IList<Player> GetPlayersByLeague(int LeagueId)
+        {
+            try
+            {
+                return Db.ExecuteReader("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True", "GetPlayersByLeagueId", CommandType.StoredProcedure,
+                new SqlParameter[]
+                {
+                    new SqlParameter("@LeagueId", LeagueId),
+                }, PlayerRepository.ParsePlayers);
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Failure to get Leagues from database", ex);
+            }
+        }
 
         private static List<League> ParseLeagues(SqlDataReader reader)
         {
@@ -61,7 +93,8 @@ namespace UIS.Pool.Repositories
                         Id = reader.GetInt32(reader.GetOrdinal("ID")),
                         Season_Id = reader.GetInt32(reader.GetOrdinal("Season_Id")),
                         Description= reader.GetString(reader.GetOrdinal("Description")),
-                        LeagueLevel = reader.GetInt32(reader.GetOrdinal("LeagueLevel"))
+                        LeagueLevel = reader.GetInt32(reader.GetOrdinal("LeagueLevel")),
+                        Players = GetPlayersByLeague(reader.GetInt32(reader.GetOrdinal("ID")))
                     });
                 }
             }

@@ -25,6 +25,7 @@ var pool;
                 vm.AddSeason = function (description) { return _this._addSeason(description); };
                 vm.AddPlayer = function (name) { return _this._addPlayer(name); };
                 vm.AddLeague = function (description, seasonId) { return _this._addLeague(description, seasonId); };
+                vm.AddPlayerToLeague = function (playerId, leagueId) { return _this._addPlayerToLeague(playerId, leagueId); };
                 function init() {
                     var _this = this;
                     _seasonService.GetSeasons()
@@ -42,12 +43,26 @@ var pool;
                 init();
             }
             ManageLeaguesController.prototype._addLeague = function (description, seasonId) {
+                var _this = this;
                 var newLeague = {
                     Season_Id: seasonId,
                     Description: description,
                     LeagueLevel: 1
                 };
-                this._leagueService.CreateLeague(newLeague).then();
+                this._leagueService.CreateLeague(newLeague).then(function (result) {
+                    alert(description + " has been created.");
+                }, function (error) {
+                    _this.errorAlert(null);
+                });
+            };
+            ManageLeaguesController.prototype._addPlayerToLeague = function (playerId, leagueId) {
+                var _this = this;
+                this._leagueService.AddPlayer(playerId, leagueId)
+                    .then(function (result) {
+                    alert("player has been added to the league.");
+                }, function (error) {
+                    _this.errorAlert(null);
+                });
             };
             ManageLeaguesController.prototype._addSeason = function (description) {
                 var _this = this;

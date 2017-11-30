@@ -42,7 +42,7 @@ namespace UIS.Pool.Repositories
             }
         }
 
-        private static IList<Player> ParsePlayers(SqlDataReader reader)
+        public static IList<Player> ParsePlayers(SqlDataReader reader)
         {
             var results = new List<Player>();
 

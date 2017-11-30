@@ -37,5 +37,10 @@ namespace UIS.Pool.Services
         {
             return _LeagueRepository.InsertLeague(league);
         }
+
+        public int InsertPlayerIntoLeague(int playerId, int LeagueId)
+        {
+            return _LeagueRepository.InsertPlayerIntoLeague(playerId, LeagueId);
+        }
     }
 }

@@ -16,6 +16,7 @@
         AddSeason: Function;
         AddPlayer: Function;
         AddLeague: Function;
+        AddPlayerToLeague: Function;
 
 
         constructor(
@@ -39,6 +40,7 @@
             vm.AddSeason = description => this._addSeason(description);
             vm.AddPlayer = name => this._addPlayer(name);
             vm.AddLeague = (description, seasonId) => this._addLeague(description, seasonId);
+            vm.AddPlayerToLeague = (playerId, leagueId) => this._addPlayerToLeague(playerId, leagueId);
 
             function init() {
                 _seasonService.GetSeasons()
@@ -68,9 +70,28 @@
                 Description: description,
                 LeagueLevel: 1
             }
+
             this._leagueService.CreateLeague(newLeague).then(
+                result => {
+                    alert(`${description} has been created.`);
+                },
+                error => {
+                    this.errorAlert(null);
+                }
             );
 
+        }
+
+        private _addPlayerToLeague(playerId, leagueId) {
+            this._leagueService.AddPlayer(playerId, leagueId)
+                .then(
+                    result => {
+                        alert(`player has been added to the league.`);
+                    },
+                    error => {
+                        this.errorAlert(null);
+                    }
+                );
         }
 
         private _addSeason(description) {
