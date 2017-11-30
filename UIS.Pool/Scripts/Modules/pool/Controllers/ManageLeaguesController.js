@@ -13,15 +13,13 @@ var pool;
                 this._matchService = _matchService;
                 this._playerService = _playerService;
                 var vm = this;
-                vm.ManageResults = {
+                vm.ManageLeague = {
                     SelectedSeason: null,
-                    SelectedLeague: null,
-                    SelectedMatch: null
+                    SelectedLeague: null
                 };
                 vm.UpdateSelectedLeague = function (leagueId) { return _this._updateSelectedLeague(leagueId); };
                 vm.UpdateSelectedSeason = function (seasonId) { return _this._updateSelectedSeason(seasonId); };
                 vm.UpdateSelectedMatch = function (match) { return console.log(match); };
-                vm.UpdateMatchResult = function () { return _this._updateMatchResult(); };
                 vm.AddSeason = function (description) { return _this._addSeason(description); };
                 vm.AddPlayer = function (name) { return _this._addPlayer(name); };
                 vm.AddLeague = function (description, seasonId) { return _this._addLeague(description, seasonId); };
@@ -90,18 +88,8 @@ var pool;
                 var _this = this;
                 this._matchService.GetMatchesByLeague(leagueId)
                     .then(function (result) {
-                    _this.ManageResults.SelectedMatch = null;
+                    _this.ManageLeague.SelectedMatch = null;
                     _this.Matches = result.data;
-                }, function (error) {
-                    _this.errorAlert(null);
-                });
-            };
-            ManageLeaguesController.prototype._updateMatchResult = function () {
-                var _this = this;
-                this._matchService.UpdateMatch(this.ManageResults.SelectedMatch)
-                    .then(function (result) {
-                    alert("Match between " + _this.ManageResults.SelectedMatch.Player1 + " & " + _this.ManageResults.SelectedMatch.Player2 + " updated, with " + _this.ManageResults.SelectedMatch.Winner + " as the winner");
-                    _this.ManageResults.SelectedMatch = null;
                 }, function (error) {
                     _this.errorAlert(null);
                 });
@@ -111,9 +99,7 @@ var pool;
                 this._leagueService.GetLeaguesBySeason(seasonId)
                     .then(function (result) {
                     _this.Leagues = result.data;
-                    _this.ManageResults.SelectedLeague = null;
-                    _this.Matches = null;
-                    _this.ManageResults.SelectedMatch = null;
+                    _this.ManageLeague.SelectedLeague = null;
                 }, function (error) {
                     _this.errorAlert(null);
                 });
@@ -131,4 +117,3 @@ var pool;
         Controllers.ManageLeaguesController = ManageLeaguesController;
     })(Controllers = pool.Controllers || (pool.Controllers = {}));
 })(pool || (pool = {}));
-//# sourceMappingURL=ManageLeaguesController.js.map

@@ -5,6 +5,7 @@
         static $inject = ['$http', '$q'];
         GetMatchesByLeague: Function;
         UpdateMatch: Function;
+        GenerateMatches: Function;
 
         constructor($http, $q) {
             this.GetMatchesByLeague = (id) => {
@@ -13,6 +14,10 @@
 
             this.UpdateMatch = (match) => {
                 return $http.post("/data/matches/add", match);
+            }
+            
+            this.GenerateMatches = (id) => {
+                return $http.post(`/data/matches/generate?LeagueId=${id}`);
             }
         }
     }

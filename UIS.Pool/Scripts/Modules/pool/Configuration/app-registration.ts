@@ -37,6 +37,15 @@
                     resolve: {
                     }
                 })
+                .when("/Manage-Results",
+                {
+                    templateUrl: "/NgTemplates?ViewName=manage-results",
+                    controller: "ManageResultsController",
+                    controllerAs: "vm",
+                    caseInsensitiveMatch: true,
+                    resolve: {
+                    }
+                })
                 .otherwise({
                     templateUrl: "/NgTemplates?ViewName=leagues",
                     controller: "ViewLeaguesController",
@@ -59,12 +68,16 @@
 
     import ViewLeaguesController = pool.Controllers.ViewLeaguesController;
     import ManageLeaguesController = pool.Controllers.ManageLeaguesController;
+    import ManageResultsController = pool.Controllers.ManageResultsController;
 
     angular.module("pool.Core")
         .controller("ViewLeaguesController", ViewLeaguesController);
 
     angular.module("pool.Core")
         .controller("ManageLeaguesController", ManageLeaguesController);
+
+    angular.module("pool.Core")
+        .controller("ManageResultsController", ManageResultsController);
 
 
 

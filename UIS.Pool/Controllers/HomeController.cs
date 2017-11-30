@@ -14,7 +14,6 @@ namespace UIS.Pool.Controllers
         [Route]
         [Route("Index")]
         [Route("Leagues")]
-        [Route("Manage-Leagues")]
         public ActionResult Index()
         {
             return View();
@@ -28,6 +27,13 @@ namespace UIS.Pool.Controllers
         public ActionResult Suggestions()
         {
             return View();
+        }
+        [Authorize]
+        [Route("Manage-Leagues")]
+        [Route("Manage-Results")]
+        public ActionResult Index2()
+        {
+            return View("Index");
         }
     }
 }

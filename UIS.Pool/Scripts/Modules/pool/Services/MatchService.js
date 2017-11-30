@@ -11,6 +11,9 @@ var pool;
                 this.UpdateMatch = function (match) {
                     return $http.post("/data/matches/add", match);
                 };
+                this.GenerateMatches = function (id) {
+                    return $http.post("/data/matches/generate?LeagueId=" + id);
+                };
             }
             MatchService.$inject = ['$http', '$q'];
             return MatchService;
@@ -18,4 +21,3 @@ var pool;
         Services.MatchService = MatchService;
     })(Services = pool.Services || (pool.Services = {}));
 })(pool || (pool = {}));
-//# sourceMappingURL=MatchService.js.map

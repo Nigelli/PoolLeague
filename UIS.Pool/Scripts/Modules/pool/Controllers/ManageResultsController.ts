@@ -1,22 +1,19 @@
 ﻿namespace pool.Controllers {
     "use strict";
 
-    export class ManageLeaguesController implements angular.IController {
+    export class ManageResultsController implements angular.IController {
         static $inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService'];
         Seasons;
         Leagues;
         Matches;
         Players;
-        ManageLeague;
+        ManageResults;
         SelectedSeason;
         UpdateSelectedLeague: Function;
         UpdateSelectedSeason: Function;
         UpdateSelectedMatch: Function;
         UpdateMatchResult: Function;
-        AddSeason: Function;
-        AddPlayer: Function;
-        AddLeague: Function;
-        AddPlayerToLeague: Function;
+        GenerateMatches: Function;
 
 
         constructor(
@@ -28,17 +25,16 @@
             private _playerService: Services.PlayerService
         ) {
             var vm = this;
-            vm.ManageLeague = {
+            vm.ManageResults = {
                 SelectedSeason: null,
-                SelectedLeague: null
+                SelectedLeague: null,
+                SelectedMatch: null
             }
             vm.UpdateSelectedLeague = leagueId => this._updateSelectedLeague(leagueId);
             vm.UpdateSelectedSeason = seasonId => this._updateSelectedSeason(seasonId);
             vm.UpdateSelectedMatch = match => console.log(match);
-            vm.AddSeason = description => this._addSeason(description);
-            vm.AddPlayer = name => this._addPlayer(name);
-            vm.AddLeague = (description, seasonId) => this._addLeague(description, seasonId);
-            vm.AddPlayerToLeague = (playerId, leagueId) => this._addPlayerToLeague(playerId, leagueId);
+            vm.UpdateMatchResult = () => this._updateMatchResult();
+            vm.GenerateMatches = leagueId => this._generateMatches(leagueId);
 
             function init() {
                 _seasonService.GetSeasons()
@@ -62,67 +58,19 @@
             init();
         }
 
-        private _addLeague(description, seasonId) {
-            let newLeague = {
-                Season_Id: seasonId,
-                Description: description,
-                LeagueLevel: 1
-            }
-
-            this._leagueService.CreateLeague(newLeague).then(
-                result => {
-                    alert(`${description} has been created.`);
-                },
-                error => {
-                    this.errorAlert(null);
-                }
-            );
-
-        }
-
-        private _addPlayerToLeague(playerId, leagueId) {
-            this._leagueService.AddPlayer(playerId, leagueId)
+        private _generateMatches(leagueId) {
+            this._matchService.GenerateMatches(leagueId)
                 .then(
-                    result => {
-                        alert(`player has been added to the league.`);
-                    },
-                    error => {
-                        this.errorAlert(null);
-                    }
-                );
-        }
-
-        private _addSeason(description) {
-            this._seasonService.AddSeason(description)
-                .then(
-                    result => {
-                        alert('season added');
-                        this._seasonService.GetSeasons()
-                            .then(
-                                result => this.Seasons = result.data,
-                                error => this.errorAlert(null)
-                            );
-                    },
-                    error => {
-                        this.errorAlert(null);
-                    }
-                );
-        }
-
-        private _addPlayer(name) {
-            this._playerService.AddPlayer(name)
-                .then(
-                    result => {
-                        alert(`${name} has been added to the pool of players`);
-                        this._playerService.GetPlayers()
-                            .then(
-                                result => this.Players = result.data,
-                                error => this.errorAlert(null)
-                            );
-                    },
-                    error => {
-                        this.errorAlert(null);
-                    }
+                    this._matchService.GetMatchesByLeague(leagueId)
+                    .then(
+                        result => {
+                            this.ManageResults.SelectedMatch = null;
+                            this.Matches = result.data;
+                        },
+                        error => {
+                            this.errorAlert(null);
+                        }
+                    )
                 );
         }
 
@@ -130,8 +78,21 @@
             this._matchService.GetMatchesByLeague(leagueId)
                 .then(
                     result => {
-                        this.ManageLeague.SelectedMatch = null;
+                        this.ManageResults.SelectedMatch = null;
                         this.Matches = result.data;
+                    },
+                    error => {
+                        this.errorAlert(null);
+                    }
+                );
+        }
+
+        private _updateMatchResult() {
+            this._matchService.UpdateMatch(this.ManageResults.SelectedMatch)
+                .then(
+                    result => {
+                        alert(`Match between ${this.ManageResults.SelectedMatch.Player1} & ${this.ManageResults.SelectedMatch.Player2} updated, with ${this.ManageResults.SelectedMatch.Winner} as the winner`);
+                        this.ManageResults.SelectedMatch = null;
                     },
                     error => {
                         this.errorAlert(null);
@@ -145,7 +106,9 @@
                 .then(
                     result => {
                         this.Leagues = result.data;
-                        this.ManageLeague.SelectedLeague = null;
+                        this.ManageResults.SelectedLeague = null;
+                        this.Matches = null;
+                        this.ManageResults.SelectedMatch = null;
                     },
                     error => {
                         this.errorAlert(null);

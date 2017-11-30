@@ -101,10 +101,10 @@ namespace UIS.Pool.Controllers
         }
         #endregion
 
-        #region Result Api Methods
+        #region Matches Api Methods
 
         [AllowAnonymous]
-        [Route("mathces/get")]
+        [Route("matches/get")]
         [HttpPost]
         public JsonResult GetMatchesByLeagueId(int Id)
         {
@@ -113,11 +113,21 @@ namespace UIS.Pool.Controllers
         }
 
         [Authorize]
-        [Route("mathces/add")]
+        [Route("matches/add")]
         [HttpPost]
         public JsonResult InsertOrUpdateMatch(Match match)
         {
             var result = _matchService.InsertOrUpdateMatch(match);
+            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [Route("matches/generate")]
+        [HttpPost]
+        public JsonResult GenerateMatchesByLeagueId(int LeagueId)
+        {
+            var matches = _matchService.GenerateMatches(LeagueId);
+            var result = _matchService.InsertMatches(matches);
             return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
         }
         #endregion

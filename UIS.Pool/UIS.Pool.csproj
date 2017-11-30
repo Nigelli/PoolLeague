@@ -344,6 +344,7 @@
     <Content Include="Views\NgTemplates\manage-leagues.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
     <Content Include="Views\Home\Suggestions.cshtml" />
+    <Content Include="Views\NgTemplates\manage-results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -358,6 +359,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\Modules\pool\Configuration\app-registration.ts" />
+    <TypeScriptCompile Include="Scripts\Modules\pool\Controllers\ManageResultsController.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Controllers\ManageLeaguesController.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Controllers\ViewLeaguesController.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Services\AuthorizationService.ts" />

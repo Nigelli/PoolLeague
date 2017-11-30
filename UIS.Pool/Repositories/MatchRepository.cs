@@ -104,7 +104,7 @@ namespace UIS.Pool.Repositories
                         LeagueId = reader.GetInt32(reader.GetOrdinal("League_Id")),
                         Player1 = reader.GetInt32(reader.GetOrdinal("Player1")),
                         Player2 = reader.GetInt32(reader.GetOrdinal("Player2")),
-                        Winner = reader.GetInt32(reader.GetOrdinal("Winner")),
+                        Winner = reader.IsDBNull(reader.GetOrdinal("Winner")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("Winner")),
                     });
                 }
             }

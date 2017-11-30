@@ -38,33 +38,38 @@ namespace UIS.Pool.Services
             return _MatchRepository.InsertOrUpdateMatch(match);
         }
 
-        public IList<Match> GenerateMatches(int LeagueId, IList<int> playerIds, int numberOfMatches = 1, IList<Match> matches = null)
+        public int InsertMatches(IList<Match> matches)
         {
+            return _MatchRepository.InsertMatches(matches);
+        }
 
+        public IList<Match> GenerateMatches(int LeagueId, IList<Player> players = null, int numberOfMatches = 1, IList<Match> matches = null)
+        {
+            players = players ?? LeagueRepository.GetPlayersByLeague(LeagueId);
             matches = matches ?? new List<Match>();
 
-            if (playerIds.Count() <= 1)
+            if (players.Count() <= 1)
             {
                 return matches;
             }
 
             for (int n = 0; n < numberOfMatches; n++)
             {
-                for (int i = 1; i < playerIds.Count(); i++)
+                for (int i = 1; i < players.Count(); i++)
                 {
                     var match = new Match()
                     {
                         LeagueId = LeagueId,
-                        Player1 = playerIds[0],
-                        Player2 = playerIds[i]
+                        Player1 = players[0].Id,
+                        Player2 = players[i].Id
                     };
                     matches.Add(match);
                 }
             }
 
-            playerIds.RemoveAt(0);
+            players.RemoveAt(0);
 
-            return GenerateMatches(LeagueId, playerIds, numberOfMatches, matches);
+            return GenerateMatches(LeagueId, players, numberOfMatches, matches);
         }
     }
 }
