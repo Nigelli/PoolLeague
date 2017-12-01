@@ -13,6 +13,7 @@
             }
 
             this.UpdateMatch = (match) => {
+                match.Winner = parseInt(match.Winner);
                 return $http.post("/data/matches/add", match);
             }
             

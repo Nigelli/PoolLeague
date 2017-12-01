@@ -80,5 +80,10 @@ var pool;
         angular.module('pool.Core')
             .service('PlayerService', PlayerService);
         //#endregion
+        //#region FilterRegistration
+        var PlayerNameFilter = pool.Filters.PlayerNameFilter;
+        angular.module('pool.Core')
+            .filter("playerNameFilter", PlayerNameFilter);
+        //#endregion
     })(core = pool.core || (pool.core = {}));
 })(pool || (pool = {}));

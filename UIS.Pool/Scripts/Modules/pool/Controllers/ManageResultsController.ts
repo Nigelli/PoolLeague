@@ -33,7 +33,7 @@
             vm.UpdateSelectedLeague = leagueId => this._updateSelectedLeague(leagueId);
             vm.UpdateSelectedSeason = seasonId => this._updateSelectedSeason(seasonId);
             vm.UpdateSelectedMatch = match => console.log(match);
-            vm.UpdateMatchResult = () => this._updateMatchResult();
+            vm.UpdateMatchResult = match => this._updateMatchResult(match);
             vm.GenerateMatches = leagueId => this._generateMatches(leagueId);
 
             function init() {
@@ -87,12 +87,12 @@
                 );
         }
 
-        private _updateMatchResult() {
-            this._matchService.UpdateMatch(this.ManageResults.SelectedMatch)
+        private _updateMatchResult(match) {
+            this._matchService.UpdateMatch(match)
                 .then(
                     result => {
-                        alert(`Match between ${this.ManageResults.SelectedMatch.Player1} & ${this.ManageResults.SelectedMatch.Player2} updated, with ${this.ManageResults.SelectedMatch.Winner} as the winner`);
-                        this.ManageResults.SelectedMatch = null;
+                        alert(`Match has been updated`);
+                        match.modified = null;
                     },
                     error => {
                         this.errorAlert(null);

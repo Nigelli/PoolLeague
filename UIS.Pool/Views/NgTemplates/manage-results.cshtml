@@ -36,21 +36,23 @@
                             <th>Player 1</th>
                             <th>Player 2</th>
                             <th>Winner</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="match in vm.Matches | orderBy:['Player1','Player2']">
-                            <td>{{match.Player1}}</td>
-                            <td>{{match.Player2}}</td>
-                            <td>
-                                <select class="form-control" type="text" ng-model="match.Winner">
+                            <td>{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
+                            <td>{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
+                            <td ng-show="match.Winner != 0">
+                                <span ng-click="match.Winner = 0">{{match.Winner | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</span>
+                                <button class="btn btn-sm btn-danger" ng-if="match.modified" ng-click="vm.UpdateMatchResult(match)">Save Update</button>
+                            </td>
+                            <td ng-show="match.Winner == 0">
+                                <select class="form-control" type="text" ng-model="match.Winner" ng-change="match.modified = true">
                                     <option value="null">Not Played</option>
-                                    <option value="{{match.Player1}}">{{match.Player1}}</option>
-                                    <option value="{{match.Player2}}">{{match.Player2}}</option>
+                                    <option value="{{match.Player1 }}">{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</option>
+                                    <option value="{{match.Player2 }}">{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</option>
                                 </select>
                             </td>
-                            <td><button class="btn btn-sm btn-danger" ng-click="vm.UpdateMatchResult(match)">Update</button></td>
                         </tr>
                     </tbody>
                 </table>

@@ -21,7 +21,7 @@ var pool;
                 vm.UpdateSelectedLeague = function (leagueId) { return _this._updateSelectedLeague(leagueId); };
                 vm.UpdateSelectedSeason = function (seasonId) { return _this._updateSelectedSeason(seasonId); };
                 vm.UpdateSelectedMatch = function (match) { return console.log(match); };
-                vm.UpdateMatchResult = function () { return _this._updateMatchResult(); };
+                vm.UpdateMatchResult = function (match) { return _this._updateMatchResult(match); };
                 vm.GenerateMatches = function (leagueId) { return _this._generateMatches(leagueId); };
                 function init() {
                     var _this = this;
@@ -60,12 +60,12 @@ var pool;
                     _this.errorAlert(null);
                 });
             };
-            ManageResultsController.prototype._updateMatchResult = function () {
+            ManageResultsController.prototype._updateMatchResult = function (match) {
                 var _this = this;
-                this._matchService.UpdateMatch(this.ManageResults.SelectedMatch)
+                this._matchService.UpdateMatch(match)
                     .then(function (result) {
-                    alert("Match between " + _this.ManageResults.SelectedMatch.Player1 + " & " + _this.ManageResults.SelectedMatch.Player2 + " updated, with " + _this.ManageResults.SelectedMatch.Winner + " as the winner");
-                    _this.ManageResults.SelectedMatch = null;
+                    alert("Match has been updated");
+                    match.modified = null;
                 }, function (error) {
                     _this.errorAlert(null);
                 });

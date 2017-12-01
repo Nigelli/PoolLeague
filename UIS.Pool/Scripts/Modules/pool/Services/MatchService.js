@@ -9,6 +9,7 @@ var pool;
                     return $http.post("/data/matches/get?Id=" + id);
                 };
                 this.UpdateMatch = function (match) {
+                    match.Winner = parseInt(match.Winner);
                     return $http.post("/data/matches/add", match);
                 };
                 this.GenerateMatches = function (id) {

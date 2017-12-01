@@ -107,4 +107,11 @@
         .service('PlayerService', PlayerService);
 
 //#endregion
+
+    //#region FilterRegistration
+    import PlayerNameFilter = pool.Filters.PlayerNameFilter;
+
+    angular.module('pool.Core')
+        .filter("playerNameFilter", PlayerNameFilter);
+//#endregion
 }

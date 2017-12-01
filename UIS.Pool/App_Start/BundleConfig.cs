@@ -40,6 +40,7 @@ namespace UIS.Pool
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/PoolModule")
+                .IncludeDirectory("~/Scripts/Modules/pool/Filters", "*.js")
                 .IncludeDirectory("~/Scripts/Modules/pool/Controllers", "*.js")
                 .IncludeDirectory("~/Scripts/Modules/pool/Services", "*.js")
                 );

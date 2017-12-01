@@ -362,6 +362,7 @@
     <TypeScriptCompile Include="Scripts\Modules\pool\Controllers\ManageResultsController.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Controllers\ManageLeaguesController.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Controllers\ViewLeaguesController.ts" />
+    <TypeScriptCompile Include="Scripts\Modules\pool\Filters\PlayerNameFilter.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Services\AuthorizationService.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Services\PlayerService.ts" />
     <TypeScriptCompile Include="Scripts\Modules\pool\Services\MatchService.ts" />
