@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace UIS.Pool.Repositories
         {
             try
             {
-                return Db.ExecuteReader("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True", "GetSeasons", CommandType.StoredProcedure, new SqlParameter[] { }, ParseSeasons);
+                return Db.ExecuteReader(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "GetSeasons", CommandType.StoredProcedure, new SqlParameter[] { }, ParseSeasons);
             }
             catch (Exception ex)
             {
@@ -30,7 +31,7 @@ namespace UIS.Pool.Repositories
         {
             try
             {
-                return Db.ExecuteNonQuery("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True",
+                return Db.ExecuteNonQuery(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,
                     "InsertSeason", CommandType.StoredProcedure, new SqlParameter[]
                     {
                         new SqlParameter("@Description", description)

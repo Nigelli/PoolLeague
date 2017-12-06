@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace UIS.Pool.Repositories
         public MatchRepository()
         {
         }
-
+        
         public IList<Match> GetMatchesByLeagueId(int leagueId)
         {
             try
             {
-                return Db.ExecuteReader("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True", "GetMatchesByLeagueId", CommandType.StoredProcedure, new SqlParameter[]
+                return Db.ExecuteReader(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "GetMatchesByLeagueId", CommandType.StoredProcedure, new SqlParameter[]
                 {
-                    new SqlParameter("@League_Id", leagueId), 
+                    new SqlParameter("@League_Id", leagueId),
                 }, ParseMatches);
             }
             catch (Exception ex)
@@ -34,7 +35,7 @@ namespace UIS.Pool.Repositories
         {
             try
             {
-                return Db.ExecuteNonQuery("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True",
+                return Db.ExecuteNonQuery(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,
                     "InsertOrUpdateMatch", CommandType.StoredProcedure, new SqlParameter[]
                     {
                         new SqlParameter("@Id", match.Id),
@@ -70,7 +71,7 @@ namespace UIS.Pool.Repositories
                         newMatches.Rows.Add(dataRow);
                     }
 
-                    return Db.ExecuteNonQuery("Data Source=localhost;Initial Catalog=UIS.Pool;Integrated Security=True", 
+                    return Db.ExecuteNonQuery(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, 
                     "InsertMatches", CommandType.StoredProcedure, new SqlParameter[]
                         {
                         new SqlParameter("@matches", newMatches)
@@ -90,7 +91,7 @@ namespace UIS.Pool.Repositories
             }
         }
 
-        private static IList<Match> ParseMatches(SqlDataReader reader)
+        public static IList<Match> ParseMatches(SqlDataReader reader)
         {
             var results = new List<Match>();
 

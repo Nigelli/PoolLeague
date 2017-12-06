@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="player in league.Data | orderBy:'Position' ">
+                <tr ng-repeat="player in league.LeagueResults | orderBy:'Wins':true ">
                     <td>{{ player.Name }}</td>
                     <td>{{ player.Wins }}</td>
                     <td>{{ player.Losses }}</td>
@@ -39,10 +39,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="result in league.Results">
-                    <td>{{ result.Player1 }}</td>
-                    <td>{{ result.Player2 }}</td>
-                    <td>{{ result.Winner }}</td>
+                <tr ng-repeat="match in league.Matches">
+                    <td>{{ match.Player1 | playerNameFilter : league.Players }}</td>
+                    <td>{{ match.Player2 | playerNameFilter : league.Players }}</td>
+                    <td>{{ match.Winner | playerNameFilter : league.Players }}</td>
                 </tr>
             </tbody>
         </table>

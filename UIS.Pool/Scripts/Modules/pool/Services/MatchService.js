@@ -22,3 +22,4 @@ var pool;
         Services.MatchService = MatchService;
     })(Services = pool.Services || (pool.Services = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=MatchService.js.map

@@ -15,15 +15,14 @@ var pool;
                         .then(function (result) {
                         vm.Seasons = result.data;
                         vm.CurrentSeason = vm.Seasons[vm.Seasons.length - 1];
-                        console.log(vm.CurrentSeason);
+                        _leagueService.GetLeaguesBySeason(vm.Seasons[vm.Seasons.length - 1].Id)
+                            .then(function (result) {
+                            vm.Leagues = result.data;
+                        }, function (error) {
+                            _this.errorAlert();
+                        });
                     }, function (error) {
                         vm.Seasons = null;
-                        _this.errorAlert();
-                    });
-                    _leagueService.GetCurrentLeagues()
-                        .then(function (result) {
-                        vm.Leagues = result.data;
-                    }, function (error) {
                         _this.errorAlert();
                     });
                 }
@@ -50,3 +49,4 @@ var pool;
         Controllers.ViewLeaguesController = ViewLeaguesController;
     })(Controllers = pool.Controllers || (pool.Controllers = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=ViewLeaguesController.js.map

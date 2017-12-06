@@ -20,22 +20,22 @@
                         result => {
                             vm.Seasons = result.data;
                             vm.CurrentSeason = vm.Seasons[vm.Seasons.length -1];
-                            console.log(vm.CurrentSeason);
+                            _leagueService.GetLeaguesBySeason(vm.Seasons[vm.Seasons.length - 1].Id)
+                                .then(
+                                    result => {
+                                        vm.Leagues = result.data;
+                                    },
+                                    error => {
+                                        this.errorAlert();
+                                    }
+                                );
                         },
                         error => {
                             vm.Seasons = null;
                             this.errorAlert();
                         }
                 );
-                _leagueService.GetCurrentLeagues()
-                    .then(
-                        result => {
-                            vm.Leagues = result.data;
-                        },
-                        error => {
-                            this.errorAlert();
-                        }
-                    );
+                
             };
 
             init();

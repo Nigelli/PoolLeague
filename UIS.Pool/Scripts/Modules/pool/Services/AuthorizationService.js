@@ -18,3 +18,4 @@ var pool;
         Services.AuthorizationService = AuthorizationService;
     })(Services = pool.Services || (pool.Services = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=AuthorizationService.js.map

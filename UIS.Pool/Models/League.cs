@@ -12,6 +12,7 @@ namespace UIS.Pool.Models
         public string Description { get; set; }
         public int LeagueLevel { get; set; }
         public IList<Player> Players { get; set; }
+        public IList<Results> LeagueResults { get; set; }
         public IList<Match> Matches { get; set; }
     }
 }
