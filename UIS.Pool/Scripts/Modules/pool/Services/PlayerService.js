@@ -14,3 +14,4 @@ var pool;
         Services.PlayerService = PlayerService;
     })(Services = pool.Services || (pool.Services = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=PlayerService.js.map

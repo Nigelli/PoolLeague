@@ -38,3 +38,4 @@ var pool;
         }
     })(Filters = pool.Filters || (pool.Filters = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=PlayersByName.js.map

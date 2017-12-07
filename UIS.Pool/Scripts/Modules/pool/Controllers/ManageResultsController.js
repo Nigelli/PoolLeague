@@ -99,3 +99,4 @@ var pool;
         Controllers.ManageResultsController = ManageResultsController;
     })(Controllers = pool.Controllers || (pool.Controllers = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=ManageResultsController.js.map

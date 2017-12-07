@@ -4,7 +4,14 @@
 }
 
 <div>
-    <h2>Welcome to the UIS pool league website</h2>
+    <div class="container-fluid">
+        <div class="jumbotron text-center" style="padding-top: 24px; padding-bottom: 24px;">
+            <h1>
+                <img class="logo" src="/Content/Images/PoolShield.png" alt="" />
+                <span>UIS - Pool League</span>
+            </h1>
+        </div>
+    </div>
 
     <div class="form-group">
         <label>Month</label>
@@ -17,8 +24,8 @@
             <thead>
                 <tr>
                     <th>Player Name: <input type="text" name="name" placeholder="Search" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="playerSearch.Name" /></th>
-                    <th>Wins</th>
-                    <th>Losses</th>
+                    <th>Frames Won</th>
+                    <th>Frames Lost</th>
                 </tr>
             </thead>
             <tbody>

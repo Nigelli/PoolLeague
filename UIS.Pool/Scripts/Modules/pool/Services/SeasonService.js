@@ -14,3 +14,4 @@ var pool;
         Services.SeasonService = SeasonService;
     })(Services = pool.Services || (pool.Services = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=SeasonService.js.map

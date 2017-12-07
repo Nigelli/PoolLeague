@@ -90,3 +90,4 @@ var pool;
         //#endregion
     })(core = pool.core || (pool.core = {}));
 })(pool || (pool = {}));
+//# sourceMappingURL=app-registration.js.map
