@@ -42,13 +42,17 @@ var pool;
             ManageResultsController.prototype._generateMatches = function (leagueId) {
                 var _this = this;
                 this._matchService.GenerateMatches(leagueId)
-                    .then(this._matchService.GetMatchesByLeague(leagueId)
                     .then(function (result) {
-                    _this.ManageResults.SelectedMatch = null;
-                    _this.Matches = result.data;
+                    _this._matchService.GetMatchesByLeague(leagueId)
+                        .then(function (result) {
+                        _this.ManageResults.SelectedMatch = null;
+                        _this.Matches = result.data;
+                    }, function (error) {
+                        _this.errorAlert(null);
+                    });
                 }, function (error) {
                     _this.errorAlert(null);
-                }));
+                });
             };
             ManageResultsController.prototype._updateSelectedLeague = function (leagueId) {
                 var _this = this;

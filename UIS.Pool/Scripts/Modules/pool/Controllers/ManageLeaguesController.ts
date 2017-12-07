@@ -54,8 +54,8 @@
                 );
                 _playerService.GetPlayers()
                     .then(
-                    result => vm.Players = result.data,
-                    error => this.errorAlert(null)
+                        result => vm.Players = result.data,
+                        error => this.errorAlert(null)
                     );
             };
 

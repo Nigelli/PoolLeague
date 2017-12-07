@@ -43,7 +43,7 @@ namespace UIS.Pool.Services
             return _MatchRepository.InsertMatches(matches);
         }
 
-        public IList<Match> GenerateMatches(int LeagueId, IList<Player> players = null, int numberOfMatches = 1, IList<Match> matches = null)
+        public IList<Match> GenerateMatches(int LeagueId, IList<Player> players = null, int numberOfMatches = 2, IList<Match> matches = null)
         {
             players = players ?? LeagueRepository.GetPlayersByLeague(LeagueId);
             matches = matches ?? new List<Match>();

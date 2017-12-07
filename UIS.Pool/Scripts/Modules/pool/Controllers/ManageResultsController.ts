@@ -61,16 +61,21 @@
         private _generateMatches(leagueId) {
             this._matchService.GenerateMatches(leagueId)
                 .then(
-                    this._matchService.GetMatchesByLeague(leagueId)
-                    .then(
-                        result => {
-                            this.ManageResults.SelectedMatch = null;
-                            this.Matches = result.data;
-                        },
-                        error => {
-                            this.errorAlert(null);
-                        }
-                    )
+                    result => {
+                        this._matchService.GetMatchesByLeague(leagueId)
+                            .then(
+                                result => {
+                                    this.ManageResults.SelectedMatch = null;
+                                    this.Matches = result.data;
+                                },
+                                error => {
+                                    this.errorAlert(null);
+                                }
+                            );
+                    },
+                    error => {
+                        this.errorAlert(null);
+                    }
                 );
         }
 
