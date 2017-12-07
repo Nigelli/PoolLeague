@@ -17,7 +17,7 @@
             </div>
 
             <div ng-if="vm.ManageResults.SelectedLeague">
-                <label>Players</label>
+                <label>Players: <input type="text" name="name" placeholder="Search" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="vm.playerSearch.Name" /></label>
                 <ul>
                     <li ng-repeat="player in vm.ManageResults.SelectedLeague.Players">{{player.Name}}</li>
                     <li ng-if="!vm.ManageResults.SelectedLeague.Players.length">No Players</li>
@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="match in vm.Matches | orderBy:['Player1','Player2']">
+                        <tr ng-repeat="match in vm.Matches | playersByName: vm.ManageResults.SelectedLeague.Players: vm.playerSearch.Name | orderBy:['Player1','Player2']">
                             <td>{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
                             <td>{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
                             <td ng-show="match.Winner != 0">

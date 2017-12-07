@@ -49,4 +49,3 @@ var pool;
         Controllers.ViewLeaguesController = ViewLeaguesController;
     })(Controllers = pool.Controllers || (pool.Controllers = {}));
 })(pool || (pool = {}));
-//# sourceMappingURL=ViewLeaguesController.js.map

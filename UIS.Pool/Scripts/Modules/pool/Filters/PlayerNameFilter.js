@@ -19,4 +19,3 @@ var pool;
         Filters.PlayerNameFilter = PlayerNameFilter;
     })(Filters = pool.Filters || (pool.Filters = {}));
 })(pool || (pool = {}));
-//# sourceMappingURL=PlayerNameFilter.js.map

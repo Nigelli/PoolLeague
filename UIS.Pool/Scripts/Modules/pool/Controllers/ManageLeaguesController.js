@@ -117,4 +117,3 @@ var pool;
         Controllers.ManageLeaguesController = ManageLeaguesController;
     })(Controllers = pool.Controllers || (pool.Controllers = {}));
 })(pool || (pool = {}));
-//# sourceMappingURL=ManageLeaguesController.js.map

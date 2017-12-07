@@ -110,8 +110,12 @@
 
     //#region FilterRegistration
     import PlayerNameFilter = pool.Filters.PlayerNameFilter;
+    import PlayersByName = pool.Filters.PlayersByName;
 
     angular.module('pool.Core')
         .filter("playerNameFilter", PlayerNameFilter);
+
+    angular.module('pool.Core')
+        .filter("playersByName", PlayersByName);
 //#endregion
 }

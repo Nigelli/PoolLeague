@@ -82,9 +82,11 @@ var pool;
         //#endregion
         //#region FilterRegistration
         var PlayerNameFilter = pool.Filters.PlayerNameFilter;
+        var PlayersByName = pool.Filters.PlayersByName;
         angular.module('pool.Core')
             .filter("playerNameFilter", PlayerNameFilter);
+        angular.module('pool.Core')
+            .filter("playersByName", PlayersByName);
         //#endregion
     })(core = pool.core || (pool.core = {}));
 })(pool || (pool = {}));
-//# sourceMappingURL=app-registration.js.map

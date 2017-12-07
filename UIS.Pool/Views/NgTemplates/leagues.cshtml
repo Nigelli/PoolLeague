@@ -11,25 +11,25 @@
         <select class="form-control" ng-model="vm.CurrentSeason" ng-options="season.Description for season in vm.Seasons | orderBy:'Ordinal':'reverse' track by season.Id" ng-change="vm.updateCurrentSeason(vm.CurrentSeason.Id)"></select>
     </div>
 
-    <div ng-repeat="league in vm.Leagues track by league.Id">
+    <div ng-repeat="league in vm.Leagues track by league.Id" ng-if="league.Matches.length">
         <h3>{{ league.Description }}</h3>
         <table class="table table-bordered table-striped table-responsive">
             <thead>
                 <tr>
-                    <th>Player Name</th>
+                    <th>Player Name: <input type="text" name="name" placeholder="Search" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="playerSearch.Name" /></th>
                     <th>Wins</th>
                     <th>Losses</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="player in league.LeagueResults | orderBy:'Wins':true ">
+                <tr ng-repeat="player in league.LeagueResults | filter: playerSearch.Name | orderBy:'Wins':true ">
                     <td>{{ player.Name }}</td>
                     <td>{{ player.Wins }}</td>
                     <td>{{ player.Losses }}</td>
                 </tr>
             </tbody>
         </table>
-        <h4>Results</h4>
+        <h4>Results by frame</h4>
         <table class="table table-bordered table-striped table-responsive">
             <thead>
                 <tr>
@@ -39,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="match in league.Matches">
+                <tr ng-repeat="match in league.Matches | playersByName: league.Players: playerSearch.Name">
                     <td>{{ match.Player1 | playerNameFilter : league.Players }}</td>
                     <td>{{ match.Player2 | playerNameFilter : league.Players }}</td>
                     <td>{{ match.Winner | playerNameFilter : league.Players }}</td>
