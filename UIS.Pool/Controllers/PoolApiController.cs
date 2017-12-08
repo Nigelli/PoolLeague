@@ -4,14 +4,18 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
+using log4net;
 using UIS.Pool.Models;
 using UIS.Pool.Services;
+using UIS.Pool.Utilities;
 
 namespace UIS.Pool.Controllers
 {
     [RoutePrefix("data")]
     public class PoolApiController : Controller
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(PoolApiController));
+
         private readonly ISeasonService _seasonService;
         private readonly IPlayerService _playerService;
         private readonly IMatchService _matchService;
@@ -23,6 +27,11 @@ namespace UIS.Pool.Controllers
             ILeagueService leagueService
         )
         {
+            Assertions.IsNullOrDefault(seasonService, "ISeasonService cannot be null");
+            Assertions.IsNullOrDefault(seasonService, "IPlayerService cannot be null");
+            Assertions.IsNullOrDefault(seasonService, "IMatchService cannot be null");
+            Assertions.IsNullOrDefault(seasonService, "ILeagueService cannot be null");
+
             _seasonService = seasonService;
             _playerService = playerService;
             _matchService = matchService;
@@ -36,8 +45,16 @@ namespace UIS.Pool.Controllers
         [HttpGet]
         public JsonResult GetSeasons()
         {
-            var result = _seasonService.GetSeasons();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _seasonService.GetSeasons();
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failure to retrieve Seasons from service", ex);
+                throw;
+            }
         }
 
         [Authorize]
@@ -45,8 +62,16 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult AddSeason(string description)
         {
-            var result = _seasonService.InsertSeason(description);
-            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _seasonService.InsertSeason(description);
+                return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Failure adding Season: [{description}].", ex);
+                throw;
+            }
         }
         #endregion
 
@@ -57,8 +82,17 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult GetLeaguesBySeasonId(int Id)
         {
-            var result = _leagueService.GetLeaguesBySeasonId(Id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _leagueService.GetLeaguesBySeasonId(Id);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failure getting Leagues from service", ex);
+                throw;
+            }
+            
         }
 
         [Authorize]
@@ -66,8 +100,16 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult InsertLeague(League league)
         {
-            var result = _leagueService.InsertLeague(league);
-            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _leagueService.InsertLeague(league);
+                return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Failure adding league.", ex);
+                throw;
+            }
         }
 
         [Authorize]
@@ -75,8 +117,16 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult InsertPlayerIntoLeague(int PlayerId, int LeagueId)
         {
-            var result = _leagueService.InsertPlayerIntoLeague(PlayerId, LeagueId);
-            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _leagueService.InsertPlayerIntoLeague(PlayerId, LeagueId);
+                return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failure adding player to league", ex);
+                throw;
+            }
         }
         #endregion
 
@@ -87,8 +137,16 @@ namespace UIS.Pool.Controllers
         [HttpGet]
         public JsonResult GetPlayers()
         {
-            var result = _playerService.GetPlayers();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _playerService.GetPlayers();
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failure to Players from service.", ex);
+                throw;
+            }
         }
 
         [Authorize]
@@ -96,8 +154,16 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult AddPlayer(string name)
         {
-            var result = _playerService.InsertPlayer(name);
-            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _playerService.InsertPlayer(name);
+                return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"Failure adding Player: [{name}].");
+                throw;
+            }
         }
         #endregion
 
@@ -108,8 +174,16 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult GetMatchesByLeagueId(int Id)
         {
-            var result = _matchService.GetMatchesByLeagueId(Id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _matchService.GetMatchesByLeagueId(Id);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failure getting Matches from service", ex);
+                throw;
+            }
         }
 
         [Authorize]
@@ -117,8 +191,16 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult InsertOrUpdateMatch(Match match)
         {
-            var result = _matchService.InsertOrUpdateMatch(match);
-            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var result = _matchService.InsertOrUpdateMatch(match);
+                return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error inserting/updating Match", ex);
+                throw;
+            }
         }
 
         [Authorize]
@@ -126,9 +208,17 @@ namespace UIS.Pool.Controllers
         [HttpPost]
         public JsonResult GenerateMatchesByLeagueId(int LeagueId)
         {
-            var matches = _matchService.GenerateMatches(LeagueId);
-            var result = _matchService.InsertMatches(matches);
-            return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var matches = _matchService.GenerateMatches(LeagueId);
+                var result = _matchService.InsertMatches(matches);
+                return Json(new { data = (result == 1) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failure generating Matches", ex);
+                throw;
+            }
         }
         #endregion
 

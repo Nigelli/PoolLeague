@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using log4net;
+using UIS.Pool.Controllers;
 
 namespace MMP.Web.Common.Controllers
 {
     public class NgTemplatesController: Controller
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(PoolApiController));
 
         private bool ViewExists(string name)
         {
@@ -22,13 +25,21 @@ namespace MMP.Web.Common.Controllers
         [Route("NgTemplates/{ViewName?}")]
         public ActionResult GetTemplate()
         {
-            var request = Request;
-            string ViewName = request.QueryString["ViewName"] ?? null;
-            if (ViewName != null && ViewExists(ViewName))
+            try
             {
-                return View(ViewName);
+                var request = Request;
+                string ViewName = request.QueryString["ViewName"] ?? null;
+                if (ViewName != null && ViewExists(ViewName))
+                {
+                    return View(ViewName);
+                }
+                throw new HttpException(404, $"View Not Found: {ViewName}");
             }
-            throw new HttpException(404, $"View Not Found: {ViewName}");
+            catch (Exception ex)
+            {
+                logger.Warn($"Requested View not found", ex);
+                throw;
+            }
 
         }
     }
