@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="player in league.LeagueResults | orderBy:'Wins':true ">
+                    <tr ng-repeat="player in league.LeagueResults | orderBy:['-Wins','Losses'] ">
                         <td>{{ player.Name }}</td>
                         <td>{{ player.Wins }}</td>
                         <td>{{ player.Losses }}</td>
