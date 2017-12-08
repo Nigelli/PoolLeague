@@ -12,58 +12,60 @@
         </div>
     </div>
     <h3>Manage Results</h3>
-    <form>
 
-        <div class="form-group">
-            <label>Season</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <span class="input-group-addon">Season</span>
             <select class="form-control" ng-model="vm.ManageResults.SelectedSeason" ng-options="season as season.Description for season in vm.Seasons | orderBy:'Id':'reverse' track by season.Id" ng-change="vm.UpdateSelectedSeason(vm.ManageResults.SelectedSeason.Id)"></select>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label>League Name</label>
+    <div class="col-lg-6">
+        <div class="input-group">
+            <span class="input-group-addon">League</span>
             <select class="form-control" ng-model="vm.ManageResults.SelectedLeague" ng-options="league as league.Description for league in vm.Leagues track by league.Id" ng-change="vm.UpdateSelectedLeague(vm.ManageResults.SelectedLeague.Id)"></select>
         </div>
+    </div>
 
-        <div ng-if="vm.ManageResults.SelectedLeague">
-            <label>Players: <input type="text" name="name" placeholder="Search" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="vm.playerSearch.Name"/></label>
-            <ul>
-                <li ng-repeat="player in vm.ManageResults.SelectedLeague.Players">{{player.Name}}</li>
-                <li ng-if="!vm.ManageResults.SelectedLeague.Players.length">No Players</li>
-            </ul>
-        </div>
+    <div class="col-lg-6" ng-if="vm.ManageResults.SelectedLeague">
+        <label>Players: <input type="text" name="name" placeholder="Search" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="vm.playerSearch.Name"/></label>
+        <ul>
+            <li ng-repeat="player in vm.ManageResults.SelectedLeague.Players">{{player.Name}}</li>
+            <li ng-if="!vm.ManageResults.SelectedLeague.Players.length">No Players</li>
+        </ul>
+    </div>
 
-        <div ng-if="vm.Matches">
-            <label ng-if="!vm.Matches.length && vm.ManageResults.SelectedLeague.Players.length">Matches</label>
-            <div ng-if="!vm.Matches.length && vm.ManageResults.SelectedLeague.Players.length">
-                <p>There are currently no matches for this league</p>
-                <button class="btn btn-success" ng-click="vm.GenerateMatches(vm.ManageResults.SelectedLeague.Id)">Generate Matches</button>
-            </div>
-            <table class="table table-striped table-bordered table-responsive" ng-if="vm.Matches.length">
-                <thead>
-                    <tr>
-                        <th>Player 1</th>
-                        <th>Player 2</th>
-                        <th>Winner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="match in vm.Matches | playersByName: vm.ManageResults.SelectedLeague.Players: vm.playerSearch.Name | orderBy:['Player1','Player2']">
-                        <td>{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
-                        <td>{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
-                        <td ng-show="match.Winner != 0">
-                            <span ng-click="match.Winner = 0">{{match.Winner | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</span>
-                            <button class="btn btn-sm btn-danger" ng-if="match.modified" ng-click="vm.UpdateMatchResult(match)">Save Update</button>
-                        </td>
-                        <td ng-show="match.Winner == 0">
-                            <select class="form-control" type="text" ng-model="match.Winner" ng-change="match.modified = true">
-                                <option value="null">Not Played</option>
-                                <option value="{{match.Player1 }}">{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</option>
-                                <option value="{{match.Player2 }}">{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div ng-if="vm.Matches">
+        <label ng-if="!vm.Matches.length && vm.ManageResults.SelectedLeague.Players.length">Matches</label>
+        <div ng-if="!vm.Matches.length && vm.ManageResults.SelectedLeague.Players.length">
+            <p>There are currently no matches for this league</p>
+            <button class="btn btn-success" ng-click="vm.GenerateMatches(vm.ManageResults.SelectedLeague.Id)">Generate Matches</button>
         </div>
-    </form>
+        <table class="table table-striped table-bordered table-responsive" ng-if="vm.Matches.length">
+            <thead>
+                <tr>
+                    <th class="col-lg-3">Player 1</th>
+                    <th class="col-lg-3">Player 2</th>
+                    <th class="col-lg-6">Winner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="match in vm.Matches | playersByName: vm.ManageResults.SelectedLeague.Players: vm.playerSearch.Name | orderBy:['Player1','Player2']">
+                    <td>{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
+                    <td>{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
+                    <td ng-show="match.Winner != 0">
+                        <span ng-click="match.Winner = 0">{{match.Winner | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</span>
+                        <button class="btn btn-sm btn-danger" ng-if="match.modified" ng-click="vm.UpdateMatchResult(match)">Save Update</button>
+                    </td>
+                    <td ng-show="match.Winner == 0">
+                        <select class="form-control" type="text" ng-model="match.Winner" ng-change="match.modified = true">
+                            <option value="null">Not Played</option>
+                            <option value="{{match.Player1 }}">{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</option>
+                            <option value="{{match.Player2 }}">{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
