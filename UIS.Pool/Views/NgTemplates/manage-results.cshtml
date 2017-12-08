@@ -53,9 +53,9 @@
                 <tr ng-repeat="match in vm.Matches | playersByName: vm.ManageResults.SelectedLeague.Players: vm.playerSearch.Name | orderBy:['Player1','Player2']">
                     <td>{{match.Player1 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
                     <td>{{match.Player2 | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</td>
-                    <td ng-show="match.Winner != 0">
-                        <span ng-click="match.Winner = 0">{{match.Winner | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</span>
-                        <button class="btn btn-sm btn-danger" ng-if="match.modified" ng-click="vm.UpdateMatchResult(match)">Save Update</button>
+                    <td class="ng-click-element" ng-show="match.Winner != 0" ng-click="match.Winner = 0">
+                        <span>{{match.Winner | playerNameFilter : vm.ManageResults.SelectedLeague.Players}}</span>
+                        <button class="btn btn-sm btn-danger" ng-if="match.modified" ng-click="vm.UpdateMatchResult(match);$event.stopPropagation();">Save Update</button>
                     </td>
                     <td ng-show="match.Winner == 0">
                         <select class="form-control" type="text" ng-model="match.Winner" ng-change="match.modified = true">
