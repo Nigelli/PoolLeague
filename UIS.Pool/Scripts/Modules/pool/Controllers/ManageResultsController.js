@@ -4,7 +4,7 @@ var pool;
     (function (Controllers) {
         "use strict";
         var ManageResultsController = /** @class */ (function () {
-            function ManageResultsController($scope, $rootScope, _seasonService, _leagueService, _matchService, _playerService) {
+            function ManageResultsController($scope, $rootScope, _seasonService, _leagueService, _matchService, _playerService, _toastr) {
                 var _this = this;
                 this.$scope = $scope;
                 this.$rootScope = $rootScope;
@@ -12,6 +12,7 @@ var pool;
                 this._leagueService = _leagueService;
                 this._matchService = _matchService;
                 this._playerService = _playerService;
+                this._toastr = _toastr;
                 var vm = this;
                 vm.ManageResults = {
                     SelectedSeason: null,
@@ -28,7 +29,6 @@ var pool;
                     _seasonService.GetSeasons()
                         .then(function (result) {
                         vm.Seasons = result.data;
-                        //vm.ManageResults.SelectedSeason = vm.Seasons[vm.Seasons.length - 1];
                     }, function (error) {
                         vm.Seasons = null;
                         _this.errorAlert(null);
@@ -68,7 +68,7 @@ var pool;
                 var _this = this;
                 this._matchService.UpdateMatch(match)
                     .then(function (result) {
-                    alert("Match has been updated");
+                    _this.sucessAlert("Match has been updated");
                     match.modified = null;
                 }, function (error) {
                     _this.errorAlert(null);
@@ -86,14 +86,18 @@ var pool;
                     _this.errorAlert(null);
                 });
             };
+            ManageResultsController.prototype.sucessAlert = function (message) {
+                message = message || 'Operation completed successfully';
+                this._toastr.success(message, "Success");
+            };
             ManageResultsController.prototype.errorAlert = function (message) {
                 message = message || 'Oh shit, looks like something went wrong. Go and put some balls in holes and try again later.';
-                alert(message);
+                this._toastr.error(message, "Error");
             };
             ;
             ManageResultsController.prototype.$onInit = function () { };
             ;
-            ManageResultsController.$inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService'];
+            ManageResultsController.$inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService', 'toastr'];
             return ManageResultsController;
         }());
         Controllers.ManageResultsController = ManageResultsController;

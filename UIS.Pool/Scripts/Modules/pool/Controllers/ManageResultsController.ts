@@ -2,7 +2,7 @@
     "use strict";
 
     export class ManageResultsController implements angular.IController {
-        static $inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService'];
+        static $inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService', 'toastr'];
         Seasons;
         Leagues;
         Matches;
@@ -22,7 +22,8 @@
             private _seasonService: Services.SeasonService,
             private _leagueService: Services.LeagueService,
             private _matchService: Services.MatchService,
-            private _playerService: Services.PlayerService
+            private _playerService: Services.PlayerService,
+            private _toastr: angular.toastr.IToastrService
         ) {
             var vm = this;
             vm.ManageResults = {
@@ -41,7 +42,6 @@
                     .then(
                         result => {
                             vm.Seasons = result.data;
-                            //vm.ManageResults.SelectedSeason = vm.Seasons[vm.Seasons.length - 1];
                         },
                         error => {
                             vm.Seasons = null;
@@ -52,7 +52,7 @@
                     .then(
                     result => vm.Players = result.data,
                     error => this.errorAlert(null)
-                    );
+                );
             };
 
             init();
@@ -96,7 +96,7 @@
             this._matchService.UpdateMatch(match)
                 .then(
                     result => {
-                        alert(`Match has been updated`);
+                        this.sucessAlert(`Match has been updated`);
                         match.modified = null;
                     },
                     error => {
@@ -121,9 +121,14 @@
                 );
         }
 
+        private sucessAlert(message) {
+            message = message || 'Operation completed successfully';
+            this._toastr.success(message, "Success");
+        }
+
         private errorAlert(message) {
             message = message || 'Oh shit, looks like something went wrong. Go and put some balls in holes and try again later.';
-            alert(message);
+            this._toastr.error(message, "Error");
         };
 
         $onInit(): void {};

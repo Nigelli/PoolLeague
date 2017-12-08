@@ -14,6 +14,7 @@
         'ngCookies',
         'ngSanitize',
         'ngRoute',
+        'toastr'
         //'ui.bootstrap',
         //'vcRecaptcha',
         //'ngFileUpload'
@@ -58,9 +59,58 @@
             });
         }]);
 
+
+    angular.module('pool.Core').config((toastrConfig: any) => {
+        angular.extend(toastrConfig, {
+            allowHtml: false,
+            closeButton: false,
+            closeHtml: '<button>&times;</button>',
+            extendedTimeOut: 1000,
+            iconClasses: {
+                error: 'toast-error',
+                info: 'toast-info',
+                success: 'toast-success',
+                warning: 'toast-warning'
+            },
+            messageClass: 'toast-message',
+            onHidden: null,
+            onShown: null,
+            onTap: null,
+            progressBar: false,
+            tapToDismiss: true,
+            templates: {
+                toast: 'toast.html',
+                progressbar: 'progressbar.html'
+            },
+            timeOut: 5000,
+            titleClass: 'toast-title',
+            toastClass: 'toast'
+        });
+    });
+
     angular.module('pool.Core').run($http => {
         $http.defaults.headers.common['X-XSRF-Token'] = angular.element('input[name="__RequestVerificationToken"]').attr('value');
     });
+
+
+    angular.module('pool.Core').run(['$templateCache', ($templateCache: any) => {
+
+        $templateCache.put('toast.html', `
+            <div class="{{toastClass}} {{toastType}}" ng-click="tapToast()">
+                <div ng-switch on="allowHtml">
+                    <div ng-switch-default ng-if="title" class="{{titleClass}}" aria-label="{{title}}">{{title}}</div>
+                    <div ng-switch-default class="{{messageClass}}" aria-label="{{message}}">{{message}}</div>
+                    <div ng-switch-when="true" ng-if="title" class="{{titleClass}}" ng-bind-html="title"></div>
+                    <div ng-switch-when="true" class="{{messageClass}}" ng-bind-html="message"></div>
+                </div>
+                <progress-bar ng-if="progressBar"></progress-bar>
+            </div>`);
+
+        $templateCache.put('progressbar.html', `<div class="toast-progress"></div>`);
+
+
+
+    }]);
 
 //#endregion
 

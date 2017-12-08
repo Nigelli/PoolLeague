@@ -25,6 +25,7 @@ namespace UIS.Pool
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/angular-toastr.css",
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Angular").Include(
@@ -32,7 +33,8 @@ namespace UIS.Pool
                     "~/Scripts/angular-animate.js",
                     "~/Scripts/angular-route.js",
                     "~/Scripts/angular-cookies.js",
-                    "~/Scripts/angular-sanitize.js"
+                    "~/Scripts/angular-sanitize.js",
+                    "~/Scripts/angular-toastr.js"
                 ));
 
             bundles.Add(new Bundle("~/Scripts/Core").Include(

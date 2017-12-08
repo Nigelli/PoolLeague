@@ -2,7 +2,7 @@
     "use strict";
 
     export class ManageLeaguesController implements angular.IController {
-        static $inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService'];
+        static $inject = ['$scope', '$rootScope', 'SeasonService', 'LeagueService', 'MatchService', 'PlayerService', 'toastr'];
         Seasons;
         Leagues;
         Matches;
@@ -25,7 +25,8 @@
             private _seasonService: Services.SeasonService,
             private _leagueService: Services.LeagueService,
             private _matchService: Services.MatchService,
-            private _playerService: Services.PlayerService
+            private _playerService: Services.PlayerService,
+            private _toastr: angular.toastr.IToastrService
         ) {
             var vm = this;
             vm.ManageLeague = {
@@ -45,7 +46,6 @@
                     .then(
                         result => {
                             vm.Seasons = result.data;
-                            //vm.ManageResults.SelectedSeason = vm.Seasons[vm.Seasons.length - 1];
                         },
                         error => {
                             vm.Seasons = null;
@@ -71,7 +71,7 @@
 
             this._leagueService.CreateLeague(newLeague).then(
                 result => {
-                    alert(`${description} has been created.`);
+                    this.sucessAlert(`${description} has been created as a league.`);
                 },
                 error => {
                     this.errorAlert(null);
@@ -84,7 +84,7 @@
             this._leagueService.AddPlayer(playerId, leagueId)
                 .then(
                     result => {
-                        alert(`player has been added to the league.`);
+                        this.sucessAlert(`Player has been added to the league.`);
                     },
                     error => {
                         this.errorAlert(null);
@@ -96,7 +96,7 @@
             this._seasonService.AddSeason(description)
                 .then(
                     result => {
-                        alert('season added');
+                        this.sucessAlert(`${description} added to seasons.`);
                         this._seasonService.GetSeasons()
                             .then(
                                 result => this.Seasons = result.data,
@@ -113,7 +113,7 @@
             this._playerService.AddPlayer(name)
                 .then(
                     result => {
-                        alert(`${name} has been added to the pool of players`);
+                        this.sucessAlert(`${name} has been added to the pool of players`);
                         this._playerService.GetPlayers()
                             .then(
                                 result => this.Players = result.data,
@@ -153,9 +153,14 @@
                 );
         }
 
+        private sucessAlert(message) {
+            message = message || 'Operation completed successfully';
+            this._toastr.success(message, "Success");
+        }
+
         private errorAlert(message) {
             message = message || 'Oh shit, looks like something went wrong. Go and put some balls in holes and try again later.';
-            alert(message);
+            this._toastr.error(message, "Error");
         };
 
         $onInit(): void {};

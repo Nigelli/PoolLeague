@@ -4,8 +4,12 @@ var pool;
     (function (Controllers) {
         "use strict";
         var ViewLeaguesController = /** @class */ (function () {
-            function ViewLeaguesController($scope, _seasonService, _leagueService) {
+            function ViewLeaguesController($scope, _seasonService, _leagueService, _toastr) {
                 var _this = this;
+                this.$scope = $scope;
+                this._seasonService = _seasonService;
+                this._leagueService = _leagueService;
+                this._toastr = _toastr;
                 var vm = this;
                 vm.Active = false;
                 vm.updateCurrentSeason = function (id) { return _this.updateActiveSeason(_leagueService, id); };
@@ -19,11 +23,11 @@ var pool;
                             .then(function (result) {
                             vm.Leagues = result.data;
                         }, function (error) {
-                            _this.errorAlert();
+                            _this.errorAlert(null);
                         });
                     }, function (error) {
                         vm.Seasons = null;
-                        _this.errorAlert();
+                        _this.errorAlert(null);
                     });
                 }
                 ;
@@ -31,7 +35,7 @@ var pool;
             }
             ViewLeaguesController.prototype.errorAlert = function (message) {
                 message = message || 'Oh shit, looks like something went wrong. Go and put some balls in holes and try again later.';
-                alert(message);
+                this._toastr.error(message, "Error");
             };
             ;
             ViewLeaguesController.prototype.updateActiveSeason = function (_leagueService, id) {
@@ -39,11 +43,11 @@ var pool;
                 _leagueService.GetLeaguesBySeason(id)
                     .then(function (result) {
                     _this.Leagues = result.data;
-                }, function (error) { return _this.errorAlert('Oh shit, looks like something went wrong. Go and put some balls in holes and try again later.'); });
+                }, function (error) { return _this.errorAlert(null); });
             };
             ViewLeaguesController.prototype.$onInit = function () { };
             ;
-            ViewLeaguesController.$inject = ['$scope', 'SeasonService', 'LeagueService'];
+            ViewLeaguesController.$inject = ['$scope', 'SeasonService', 'LeagueService', 'toastr'];
             return ViewLeaguesController;
         }());
         Controllers.ViewLeaguesController = ViewLeaguesController;
