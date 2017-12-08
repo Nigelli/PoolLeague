@@ -18,41 +18,49 @@
         <select class="form-control" ng-model="vm.CurrentSeason" ng-options="season.Description for season in vm.Seasons | orderBy:'Ordinal':'reverse' track by season.Id" ng-change="vm.updateCurrentSeason(vm.CurrentSeason.Id)"></select>
     </div>
 
-    <div ng-repeat="league in vm.Leagues track by league.Id" ng-if="league.Matches.length">
-        <h3>{{ league.Description }}</h3>
-        <table class="table table-bordered table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th>Player Name: <input type="text" name="name" placeholder="Search" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="playerSearch.Name" /></th>
-                    <th>Frames Won</th>
-                    <th>Frames Lost</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="player in league.LeagueResults | filter: playerSearch.Name | orderBy:'Wins':true ">
-                    <td>{{ player.Name }}</td>
-                    <td>{{ player.Wins }}</td>
-                    <td>{{ player.Losses }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <h4>Results by frame</h4>
-        <table class="table table-bordered table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th>Player 1</th>
-                    <th>Player 2</th>
-                    <th>Winner</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="match in league.Matches | playersByName: league.Players: playerSearch.Name">
-                    <td>{{ match.Player1 | playerNameFilter : league.Players }}</td>
-                    <td>{{ match.Player2 | playerNameFilter : league.Players }}</td>
-                    <td>{{ match.Winner | playerNameFilter : league.Players }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row" ng-repeat="league in vm.Leagues track by league.Id" ng-if="league.Matches.length">
+        <div class="col-lg-6">
+            <h3>{{ league.Description }}</h3>
+            <table class="table table-bordered table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Frames Won</th>
+                        <th>Frames Lost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="player in league.LeagueResults | orderBy:'Wins':true ">
+                        <td>{{ player.Name }}</td>
+                        <td>{{ player.Wins }}</td>
+                        <td>{{ player.Losses }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-lg-6">
+            <h4>Results by frame</h4>
+            <table class="table table-bordered table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th colspan="3">filter: <input type="text" name="name" placeholder="Search by player" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="playerSearch.Name" /></th>
+                    </tr>
+                    <tr>
+                        <th>Player 1</th>
+                        <th>Player 2</th>
+                        <th>Winner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="match in league.Matches | playersByName: league.Players: playerSearch.Name">
+                        <td>{{ match.Player1 | playerNameFilter : league.Players }}</td>
+                        <td>{{ match.Player2 | playerNameFilter : league.Players }}</td>
+                        <td>{{ match.Winner | playerNameFilter : league.Players }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>
