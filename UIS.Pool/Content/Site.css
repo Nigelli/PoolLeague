@@ -20,5 +20,14 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
+
+.table {
+    top: 8px;
+    position: relative;
+}
+.input-group {
+    margin-top: 4px;
+}
+
