@@ -9,22 +9,25 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using UIS.Pool.Models;
 using UIS.Pool.Repositories;
+using UIS.Pool.Utilities;
 
 namespace UIS.Pool.Services
 {
     public class MatchService: IMatchService
     {
-        private readonly IMatchRepository _MatchRepository;
+        private readonly IMatchRepository _matchRepository;
 
-        public MatchService(IMatchRepository MatchRepository)
+        public MatchService(IMatchRepository matchRepository)
         {
-            _MatchRepository = MatchRepository;
+            Assertions.IsNullOrDefault(matchRepository, "ILeagueRepository cannot be null.");
+
+            _matchRepository = matchRepository;
         }
         public IList<Match> GetMatchesByLeagueId(int leagueId)
         {
             try
             {
-                return _MatchRepository.GetMatchesByLeagueId(leagueId);
+                return _matchRepository.GetMatchesByLeagueId(leagueId);
             }
             catch (Exception)
             {
@@ -35,41 +38,69 @@ namespace UIS.Pool.Services
 
         public int InsertOrUpdateMatch(Match match)
         {
-            return _MatchRepository.InsertOrUpdateMatch(match);
+            try
+            {
+                match.ObjectNotFound("name cannot be null or whitespace.");
+                return _matchRepository.InsertOrUpdateMatch(match);
+            }
+            catch (ObjectNotFoundException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public int InsertMatches(IList<Match> matches)
         {
-            return _MatchRepository.InsertMatches(matches);
+            Assertions.IsNullOrEmptyCollection(matches, "At least 1 Match is required");
+            try
+            {
+                return _matchRepository.InsertMatches(matches);
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Failure to insert matches into the repository", ex);
+            }
         }
 
         public IList<Match> GenerateMatches(int LeagueId, IList<Player> players = null, int numberOfMatches = 2, IList<Match> matches = null)
         {
-            players = players ?? LeagueRepository.GetPlayersByLeague(LeagueId);
-            matches = matches ?? new List<Match>();
-
-            if (players.Count() <= 1)
+            Assertions.IsNullOrDefault(LeagueId, "LeagueId cannot be null");
+            try
             {
-                return matches;
-            }
+                players = players ?? LeagueRepository.GetPlayersByLeague(LeagueId);
+                matches = matches ?? new List<Match>();
 
-            for (int n = 0; n < numberOfMatches; n++)
-            {
-                for (int i = 1; i < players.Count(); i++)
+                if (players.Count() <= 1)
                 {
-                    var match = new Match()
-                    {
-                        LeagueId = LeagueId,
-                        Player1 = players[0].Id,
-                        Player2 = players[i].Id
-                    };
-                    matches.Add(match);
+                    return matches;
                 }
+
+                for (int n = 0; n < numberOfMatches; n++)
+                {
+                    for (int i = 1; i < players.Count(); i++)
+                    {
+                        var match = new Match()
+                        {
+                            LeagueId = LeagueId,
+                            Player1 = players[0].Id,
+                            Player2 = players[i].Id
+                        };
+                        matches.Add(match);
+                    }
+                }
+
+                players.RemoveAt(0);
+
+                return GenerateMatches(LeagueId, players, numberOfMatches, matches);
             }
-
-            players.RemoveAt(0);
-
-            return GenerateMatches(LeagueId, players, numberOfMatches, matches);
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

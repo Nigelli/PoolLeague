@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using UIS.Pool.Models;
 using UIS.Pool.Repositories;
+using UIS.Pool.Utilities;
 
 namespace UIS.Pool.Services
 {
@@ -18,6 +19,8 @@ namespace UIS.Pool.Services
 
         public PlayerService(IPlayerRepository playerRepository)
         {
+            Assertions.IsNullOrDefault(playerRepository, "IPlayerRepository cannot be null.");
+
             _playerRepository = playerRepository;
         }
         public IList<Player> GetPlayers()
@@ -35,7 +38,20 @@ namespace UIS.Pool.Services
 
         public int InsertPlayer(string name)
         {
-            return _playerRepository.InsertPlayer(name);
+            try
+            {
+                Assertions.IsNullEmptyOrWhitespace(name, "name cannot be null or whitespace.");
+                return _playerRepository.InsertPlayer(name);
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
     }
 }
