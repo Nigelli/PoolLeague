@@ -8,6 +8,7 @@
         Seasons;
         Leagues;
         updateCurrentSeason;
+        currentPage;
 
         constructor(
             private $scope: angular.IScope,
@@ -18,6 +19,7 @@
             var vm = this;
             vm.Active = false;
             vm.updateCurrentSeason = id => this.updateActiveSeason(_leagueService, id);
+            vm.currentPage = 1;
 
             function init() {
                 _seasonService.GetSeasons()
@@ -28,6 +30,7 @@
                             _leagueService.GetLeaguesBySeason(vm.Seasons[vm.Seasons.length - 1].Id)
                                 .then(
                                     result => {
+                                        angular.forEach(result.data, league => league.currentPage = 1);
                                         vm.Leagues = result.data;
                                     },
                                     error => {
@@ -55,6 +58,7 @@
             _leagueService.GetLeaguesBySeason(id)
                 .then(
                     result => {
+                        angular.forEach(result.data, league => league.currentPage = 1);
                         this.Leagues = result.data;
                     },
                     error => this.errorAlert(null)

@@ -44,7 +44,7 @@
             <table class="table table-bordered table-striped table-responsive">
                 <thead>
                     <tr>
-                        <th colspan="3">filter: <input type="text" name="name" placeholder="Search by player" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="playerSearch.Name" /></th>
+                        <th colspan="3">filter: <input type="text" name="name" placeholder="Search by player" style="border: 1px solid #eee; outline: none; padding-left: 4px;" ng-model="playerSearch.Name" ng-change="league.currentPage = 1" /></th>
                     </tr>
                     <tr>
                         <th>Player 1</th>
@@ -53,13 +53,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="match in league.Matches | playersByName: league.Players: playerSearch.Name">
+                    <tr ng-repeat="match in (!playerSearch.Name ? league.Matches.slice(((league.currentPage-1)* 8), (league.currentPage*8)) : league.Matches) | playersByName: league.Players: playerSearch.Name">
                         <td>{{ match.Player1 | playerNameFilter : league.Players }}</td>
                         <td>{{ match.Player2 | playerNameFilter : league.Players }}</td>
                         <td>{{ match.Winner | playerNameFilter : league.Players }}</td>
                     </tr>
                 </tbody>
             </table>
+            <ul ng-if="(league.Matches.length > 8) && !playerSearch.Name" uib-pagination items-per-page="8" boundary-links="true" total-items="league.Matches.length" ng-model="league.currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
         </div>
     </div>
 

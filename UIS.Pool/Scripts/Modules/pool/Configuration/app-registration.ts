@@ -14,8 +14,8 @@
         'ngCookies',
         'ngSanitize',
         'ngRoute',
-        'toastr'
-        //'ui.bootstrap',
+        'toastr',
+        'ui.bootstrap'
         //'vcRecaptcha',
         //'ngFileUpload'
     ]);

@@ -34,7 +34,8 @@ namespace UIS.Pool
                     "~/Scripts/angular-route.js",
                     "~/Scripts/angular-cookies.js",
                     "~/Scripts/angular-sanitize.js",
-                    "~/Scripts/angular-toastr.js"
+                    "~/Scripts/angular-toastr.js",
+                    "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
                 ));
 
             bundles.Add(new Bundle("~/Scripts/Core").Include(

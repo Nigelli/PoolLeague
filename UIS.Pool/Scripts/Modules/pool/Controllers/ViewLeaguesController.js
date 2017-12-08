@@ -13,6 +13,7 @@ var pool;
                 var vm = this;
                 vm.Active = false;
                 vm.updateCurrentSeason = function (id) { return _this.updateActiveSeason(_leagueService, id); };
+                vm.currentPage = 1;
                 function init() {
                     var _this = this;
                     _seasonService.GetSeasons()
@@ -21,6 +22,7 @@ var pool;
                         vm.CurrentSeason = vm.Seasons[vm.Seasons.length - 1];
                         _leagueService.GetLeaguesBySeason(vm.Seasons[vm.Seasons.length - 1].Id)
                             .then(function (result) {
+                            angular.forEach(result.data, function (league) { return league.currentPage = 1; });
                             vm.Leagues = result.data;
                         }, function (error) {
                             _this.errorAlert(null);
@@ -42,6 +44,7 @@ var pool;
                 var _this = this;
                 _leagueService.GetLeaguesBySeason(id)
                     .then(function (result) {
+                    angular.forEach(result.data, function (league) { return league.currentPage = 1; });
                     _this.Leagues = result.data;
                 }, function (error) { return _this.errorAlert(null); });
             };
